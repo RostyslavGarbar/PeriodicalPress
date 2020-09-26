@@ -1,0 +1,31 @@
+CREATE TABLE editions(
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    price MONEY NOT NULL,
+    theme VARCHAR(20) NOT NULL,
+    description VARCHAR(1000)
+);
+
+CREATE TABLE users(
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    surname VARCHAR(50) NOT NULL,
+    birth_date DATE NOT NULL,
+    user_role VARCHAR(20) NOT NULL,
+    balance MONEY,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(50) NOT NULL,
+    is_blocked BOOLEAN DEFAULT(FALSE) NOT NULL
+);
+
+CREATE TABLE subscriptions(
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+    edition_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    create_date DATE NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    FOREIGN KEY(edition_id) REFERENCES editions(id) ON DELETE CASCADE,
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+);
